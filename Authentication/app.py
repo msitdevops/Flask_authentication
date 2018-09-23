@@ -6,13 +6,10 @@ from wtforms.validators import InputRequired, Email, Length
 from flask_sqlalchemy  import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
-from OpenSSL import SSL
-
-context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
-context.use_privatekey_file('server.key')
-context.use_certificate_file('server.crt')
+from flask_sslify import SSLify
 
 app = Flask(__name__)
+# sslify = SSLify(app)
 app.config['SECRET_KEY'] = 'Thisissupposedtobesecret!'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///login-example/database.db'
 bootstrap = Bootstrap(app)
@@ -87,4 +84,4 @@ def logout():
     return redirect(url_for('index'))
 
 if __name__ == '__main__':
-    app.run(host='127.0.0.1', debug=True, ssl_context=context)
+    app.run(host='127.0.0.1', debug=True)
